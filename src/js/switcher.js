@@ -32,7 +32,8 @@ switchCheckBox.addEventListener('change', event);
 
 function event() {
   if (switchCheckBox.checked) {
-    document.body.classList.add(Theme.DARK);
+    // document.body.classList.add(Theme.DARK);
+    document.body.classList.replace(Theme.LIGHT, Theme.DARK);
   } else {
     document.body.classList.replace(Theme.DARK, Theme.LIGHT);
   }
@@ -41,7 +42,7 @@ function event() {
   // все классы элемента.
   localStorage.setItem(
     'theme',
-    JSON.stringify({ theme: document.body.classList[1], checked: switchCheckBox.checked }),
+    JSON.stringify({ theme: document.body.classList[0], checked: switchCheckBox.checked }),
   );
 }
 
@@ -49,13 +50,12 @@ function event() {
 
 const SetThemeAfterReload = function () {
   const saveTheme = localStorage.getItem('theme');
-  if (saveTheme) {
+  if (!saveTheme) {
+    document.body.classList.add(Theme.LIGHT);
+  } else {
     const { theme, checked } = JSON.parse(saveTheme);
-
     document.body.classList.add(theme);
     switchCheckBox.checked = checked;
-  } else {
-    document.body.classList.add(Theme.LIGHT);
   }
 };
 SetThemeAfterReload();
